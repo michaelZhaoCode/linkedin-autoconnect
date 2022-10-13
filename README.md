@@ -6,7 +6,7 @@ Then, paste body of text containing LinkedIn links into `messages.txt` and then 
 The program will find all the links, clean them, and then go to all of them and send connection requests.  
 The status of the current operation is printed out to the user.
 # Notes
-Note that auto login will not work if you use login verification so you can insert a sleep command to login manually.  
+Note that auto login will not work if you use login verification so you can insert a sleep command to login manually. This will require you to disable the headless chromeoptions.  
 Note that no data is retrieved from LinkedIn, the website is only read to find the buttons required.
 # Requirements
 To install, run `pip install <module>`  
