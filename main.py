@@ -19,9 +19,9 @@ def clean_link(link: str) -> str:
     # split apart the message into words and find the one containing the link
     message_text = link.split()
     for message in message_text:
-    if "www.linkedin.com" in message:
-        # remove whitespace
-        return message.strip()
+        if "www.linkedin.com" in message:
+            # remove whitespace
+            return message.strip()
 
 
 def connect(driver: uc.Chrome, link: str) -> None:
