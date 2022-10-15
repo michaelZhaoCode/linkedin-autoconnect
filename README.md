@@ -1,7 +1,7 @@
 # LinkedIn Autoconnect
-Finds linkedin profile links from a body of text and automatically sends connection requests using your account.
+Finds LinkedIn profile links from a body of text and automatically sends connection requests using your account.
 # How to Use
-First enter LinkedIn login information into the variables in `linkedin_constants.py`. 
+First enter LinkedIn login information and a connection message into the variables in `linkedin_constants.py`.  
 Then, paste body of text containing LinkedIn links into `messages.txt` and then run.  
 The program will find all the links, clean them, and then go to all of them and send connection requests.  
 The status of the current operation is printed out to the user.
