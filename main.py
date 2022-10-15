@@ -1,7 +1,7 @@
 """
 This program will extract LinkedIn pages from messages.txt and connect to them.
-To use, simply copy messages into messages.txt, and it will automatically extract LinkedIn pages.
-Then, input login information into CONSTANTS below, and it will connect to all the pages found.
+To use, simply copy messages into messages.txt, and input login information into linkedin_constants.py
+Then, it will automatically extract LinkedIn pages, and it will connect to all the pages found.
 """
 # imports
 import undetected_chromedriver as uc
@@ -31,10 +31,25 @@ def connect(driver: uc.Chrome, link: str) -> None:
     sleep(2)
     # html makes it tough to find the connect button :(
     profile_bar = driver.find_element(By.CSS_SELECTOR, "div[class='pvs-profile-actions ']")
-    connect_button = profile_bar.find_element(By.CLASS_NAME, 'artdeco-button--primary')
-    connect_button.click()
+    try:
+        connect_button = profile_bar.find_element(By.CLASS_NAME, 'artdeco-button--primary')
+        connect_button.click()
+    except selenium.common.exceptions.NoSuchElementException:
+        # in case connect is hidden in dropdown
+        more_buttons = profile_bar.find_element(By.CLASS_NAME, 'artdeco-dropdown__trigger')
+        more_buttons.click()
+        connect_button = profile_bar.find_element(By.CSS_SELECTOR, "li-icon[type='connect']")
+        connect_button.click()
+        # connection category, other
+        driver.find_element(By.CSS_SELECTOR, "button[aria-label='Other']").click()
+        driver.find_element(By.CSS_SELECTOR, "button[aria-label='Connect']").click()
+
     sleep(1)
-    # confirmation to send
+    # add message to connect and confirmation to send
+    add_note = driver.find_element(By.CSS_SELECTOR, "button[aria-label='Add a note']")
+    add_note.click()
+    message_box = driver.find_element(By.ID, "custom-message")
+    message_box.send_keys(CONNECT_MESSAGE)
     send_now = driver.find_element(By.CSS_SELECTOR, "button[aria-label='Send now']")
     send_now.click()
     print("Connection request sended.")
