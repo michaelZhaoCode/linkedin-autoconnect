@@ -5,7 +5,7 @@ Then, it will automatically extract LinkedIn pages, and it will connect to all t
 """
 # imports
 import undetected_chromedriver as uc
-import selenium.common.exceptions
+import selenium.common.exceptions as exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chromium.options import ChromiumOptions
 from time import sleep
@@ -34,10 +34,11 @@ def connect(driver: uc.Chrome, link: str) -> None:
     try:
         connect_button = profile_bar.find_element(By.CLASS_NAME, 'artdeco-button--primary')
         connect_button.click()
-    except selenium.common.exceptions.NoSuchElementException:
+    except (exceptions.NoSuchElementException, exceptions.ElementNotInteractableException):
         # in case connect is hidden in dropdown
         more_buttons = profile_bar.find_element(By.CLASS_NAME, 'artdeco-dropdown__trigger')
         more_buttons.click()
+        sleep(2)
         connect_button = profile_bar.find_element(By.CSS_SELECTOR, "li-icon[type='connect']")
         connect_button.click()
         # connection category, other
@@ -100,7 +101,7 @@ def main() -> None:
             try:
                 print(f"Attempt {i + 1}: ", end="")
                 connect(driver, links[i])
-            except selenium.common.exceptions.NoSuchElementException:
+            except exceptions.NoSuchElementException:
                 print("Link did not work.")
 
     # Clear the messages text
